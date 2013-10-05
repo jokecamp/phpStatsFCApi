@@ -1,7 +1,9 @@
 phpStatsFCApi
 =============
 
-Very simple PHP code to quickly perform GETs against the football/soccer data at api.statscs.com 
+Very simple PHP code to quickly perform GETs against the football/soccer JSON data at https://statsfc.com/
+
+Stats FC is an API for Premier League, FA Cup and League Cup football results.
 
 Example usage:
 
