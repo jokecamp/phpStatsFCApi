@@ -6,6 +6,7 @@
 	10/5/2013
 	See API documentation at https://statsfc.com/docs/api
 */
+
 class StatsFcApi {
 	public function __construct ($baseUrl, $apiKey, $timezone) {
         $this->apiKey = $apiKey;
@@ -13,40 +14,52 @@ class StatsFcApi {
 		$this->timezone = $timezone;
 	}
 	
-	// type = {League | Cup }
-	public function GetCompetitions() {	
-		$params = array('key'=> $this->apiKey, 'type'=>'League');	
-		$url = $this->baseUrl . 'competitions.json?' . http_build_query($params);
-		//echo $url . "<br>";
-		$data = json_decode(file_get_contents($url));
-		return $data;
+	private function WithTrailingSlash($url) {
+		return rtrim($url, '/') . '/';
+	}
+	
+	public function GetJson($url, $params) {
+		$params['key'] = $this->apiKey; 
+		$url = $this->WithTrailingSlash($this->baseUrl) . 
+				$url . '.json?' . http_build_query($params);
+		//echo $url;
+		return json_decode(file_get_contents($url));
+	}
+	
+	/*
+		$type can be "League" or "Cup"
+	*/
+	public function GetCompetitions($type) {	
+		$params = array('type'=>$type);	
+		$url = 'competitions';
+		return $this->GetJson($url, $params);
 	}
 
-	//  ["id"]=> int(9825) ["name"]=> string(7) "Arsenal" ["nameshort"]=> string(7) "Arsenal" ["path"]=> string(7) "arsenal" 
-	public function GetTeams($comp) {	
-		$params = array('key'=> $this->apiKey, 'year'=>'2013/2014');	
-		$url = $this->baseUrl . $comp . '/teams.json?' . http_build_query($params);
-		//echo $url . "<br>";
-		$data = json_decode(file_get_contents($url));
-		return $data;
+	/* 
+		$comp = 'premier-league'
+		$year = '2013/2014'
+	*/
+	public function GetTeams($comp, $year) {	
+		$params = array('year'=> $year);	
+		$url = $this->WithTrailingSlash($comp) . 'teams';
+		return $this->GetJson($url, $params);
 	}
 	
-	public function GetResults($comp) {
-		$params = array('key'=> $this->apiKey, 'limit' => 25, 'timezone' => $this->timezone);
-		$url = $this->baseUrl . $comp . '/results.json?' . http_build_query($params);
-		//echo $url . "<br>";
-		$data = json_decode(file_get_contents($url));
-		return $data;			
+	public function GetResults($comp, $max) {
+		$params = array('limit' => $max, 'timezone' => $this->timezone);
+		$url = $this->WithTrailingSlash($comp) . 'results';
+		return $this->GetJson($url, $params);			
 	}
-	
-	public function GetLiveScores($comp) {
-		$params = array('key'=> $this->apiKey, 'limit' => 25, 'timezone' => $this->timezone);
-		$url = $this->baseUrl . $comp . '/live.json?' . http_build_query($params);
-		//echo $url . "<br>";
-		$data = json_decode(file_get_contents($url));
-		return $data;			
+
+	/* 
+		Only returns results if there are current games for given competition.
+		If no games are live response is {"error":"No live games found"}
+	*/
+	public function GetLiveScores($comp, $max) {
+		$params = array('limit' => $max, 'timezone' => $this->timezone);
+		$url = $this->WithTrailingSlash($comp) . 'live';
+		return $this->GetJson($url, $params);		
 	}
 }
-
 
 ?>
