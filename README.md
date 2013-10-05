@@ -18,3 +18,11 @@ foreach($teams as $t) {
 	echo sprintf($format, $t->id, $t->name, $t->nameshort, $t->path);	
 }
 ```
+Will yield the following (truncated) results:
+
+	Teams
+	9825 Arsenal Arsenal arsenal 
+	10252 Aston Villa Aston Villa aston-villa 
+	8344 Cardiff City Cardiff cardiff-city 
+	8455 Chelsea Chelsea chelsea 
+	....
