@@ -1,9 +1,11 @@
-phpStatsFCApi
-=============
+PHP Consumer for Stats FC API
+=============================
 
-Very simple PHP code to quickly perform GETs against the football/soccer JSON data at https://statsfc.com/
-
+Very simple PHP code to quickly perform GETs against the football/soccer JSON data at https://statsfc.com/ 
 Stats FC is an API for Premier League, FA Cup and League Cup football results.
+
+Written by a C# developer so please point out any issues/improvements you see in the PHP code.
+
 
 Example usage:
 
