@@ -52,7 +52,14 @@ class StatsFcApi {
 	}
 
 	/*
-		to and from Dates should be formatted like '2012-09-01' (yyyy-mm-dd)
+		Required:
+			competition String, is the path of the competition
+		Optional:
+			team String, is the path of a team if you want only their fixtures, e.g., manchester-city, liverpool
+			from Date, is the date to get fixtures from, e.g., 2012-09-01
+			to Date, is the date to get fixtures to, e.g., 2012-12-31
+			timezone String, is one of the following timezones  
+			limit Integer, is the maximum number of fixtures to return	
 	*/
 	public function GetFixtures($comp, $max, $from, $to) {
 		$params = array('limit' => $max, 
@@ -70,6 +77,18 @@ class StatsFcApi {
 	public function GetLiveScores($comp, $max) {
 		$params = array('limit' => $max, 'timezone' => $this->timezone);
 		$url = $this->WithTrailingSlash($comp) . 'live';
+		return $this->GetJson($url, $params);		
+	}
+	
+	/*
+		Optional:
+			competition New String, is the path of the competition  
+			team New String, is the path of a team if you want only their results, e.g., manchester-city, liverpool
+			year New String, is the year you want top scorers for, e.g., 2012/2013		
+	*/
+	public function GetTopScorers($comp, $team, $year) {
+		$params = array('competition' => $comp, 'team' => $team, 'year' => $year);
+		$url = $this->WithTrailingSlash($comp) . 'top-scorers';
 		return $this->GetJson($url, $params);		
 	}
 }
