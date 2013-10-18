@@ -51,6 +51,18 @@ class StatsFcApi {
 		return $this->GetJson($url, $params);			
 	}
 
+	/*
+		to and from Dates should be formatted like '2012-09-01' (yyyy-mm-dd)
+	*/
+	public function GetFixtures($comp, $max, $from, $to) {
+		$params = array('limit' => $max, 
+			'timezone' => $this->timezone,
+			'to' => $to,
+			'from' => $from);
+		$url = $this->WithTrailingSlash($comp) . 'fixtures';
+		return $this->GetJson($url, $params);			
+	}
+	
 	/* 
 		Only returns results if there are current games for given competition.
 		If no games are live response is {"error":"No live games found"}
