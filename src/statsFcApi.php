@@ -79,6 +79,12 @@ class StatsFcApi {
 		$url = $this->WithTrailingSlash($comp) . 'live';
 		return $this->GetJson($url, $params);		
 	}
+
+	public function GetTable($comp, $year) {
+		$params = array('competition' => $comp, 'year' => $year);
+		$url = $this->WithTrailingSlash($comp) . 'table';
+		return $this->GetJson($url, $params);		
+	}
 	
 	/*
 		Optional:
